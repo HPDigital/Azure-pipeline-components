@@ -1,0 +1,30 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+
+name: evaluate_1
+display_name: Evaluate 1
+type: command
+
+inputs:
+  test_data: 
+    type: uri_file
+  predict_data: 
+    type: uri_file
+  objective:
+    type: string
+    default: Potability
+  target_name:
+    type: string
+  
+outputs:
+  report_output:
+    type: uri_file
+  
+code: ./src
+environment: azureml:AzureML-sklearn-1.0-ubuntu20.04-py38-cpu:1
+command: >-
+  python evaluate.py 
+  --test_data ${{inputs.test_data}} 
+  --predict_data ${{inputs.predict_data}} 
+  --objective ${{inputs.objective}} 
+  --target_name ${{inputs.target_name}} 
+  --report_output ${{outputs.report_output}}
